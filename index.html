@@ -1,14 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<link rel="icon" href="signature.svg">
+<!-- saved from url=(0043)https://prabhashhewage.github.io/portfolio/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="icon" href="./Hey, Prabhash here_files/signature.svg">
 <title>Hey, Prabhash here</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Hey, Prabhash here_files/css2" rel="stylesheet">
 
+
+<style>
+/* Exact ambient background CSS, embedded so the background works from a local HTML file. */
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+  --ambient-black: #020204;
+  --ambient-pink: 255, 29, 148;
+  --ambient-blue: 137, 61, 224;
+  --ambient-grain-opacity: .022;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; margin: 0; }
+
+body {
+  background: var(--ambient-black);
+  color: #fff;
+  font-family: Manrope, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Independent fixed visual layer: no layout space and no pointer input. */
+ambient-background {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  background: var(--ambient-black);
+}
+
+/* Keeps ordinary page content above the independent background component. */
+body > :not(ambient-background) { position: relative; z-index: 1; }
+
+.ambient-background__base,
+.ambient-background__lights,
+.ambient-background__grain,
+.ambient-background__grain-fallback,
+.ambient-background__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ambient-background__base { background: #020204; }
+.ambient-background__lights { overflow: hidden; transform: translateZ(0); }
+
+/* Only two low-opacity, heavily blurred illumination sources exist. */
+.ambient-background__light {
+  position: absolute;
+  display: block;
+  width: min(44vmax, 680px);
+  height: min(35vmax, 520px);
+  border-radius: 53% 47% 61% 39% / 46% 58% 42% 54%;
+  opacity: .58;
+  filter: blur(105px);
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Shifted copies of the same illumination make each source breathe and change
+   silhouette under the blur, rather than reading as a moving circular ball. */
+.ambient-background__light::before,
+.ambient-background__light::after {
+  position: absolute;
+  content: "";
+  inset: 8%;
+  border-radius: inherit;
+  background: inherit;
+  opacity: .48;
+  will-change: transform, opacity;
+}
+
+.ambient-background__light::after { opacity: .3; }
+
+.ambient-background__light--pink {
+  top: -12%;
+  left: 32%;
+  opacity: .7;
+  background: radial-gradient(ellipse at center, rgba(var(--ambient-pink), .9) 0%, rgba(var(--ambient-pink), .48) 33%, transparent 72%);
+  animation: pink-drift 24s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+
+.ambient-background__light--blue {
+  top: 47%;
+  left: 27%;
+  width: min(38vmax, 590px);
+  height: min(31vmax, 460px);
+  opacity: .58;
+  background: radial-gradient(ellipse at center, rgba(var(--ambient-blue), .88) 0%, rgba(var(--ambient-blue), .42) 35%, transparent 72%);
+  animation: blue-drift 12s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+}
+
+.ambient-background__light--pink { animation-duration: 14s; }
+.ambient-background__light--pink::before { animation: pink-lobe-one 8s ease-in-out infinite; }
+.ambient-background__light--pink::after { animation: pink-lobe-two 11s ease-in-out infinite; }
+.ambient-background__light--blue::before { animation: blue-lobe-one 7s ease-in-out infinite; }
+.ambient-background__light--blue::after { animation: blue-lobe-two 10s ease-in-out infinite; }
+
+/* Dense generated grain changes character over the coloured illumination. */
+.ambient-background__grain {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ambient-background__grain--light {
+  opacity: .42;
+  mix-blend-mode: soft-light;
+}
+
+.ambient-background__grain--shadow {
+  opacity: var(--ambient-grain-opacity);
+  mix-blend-mode: screen;
+}
+
+/* These SVG turbulence layers render even if a local browser blocks JS. */
+.ambient-background__grain-fallback { width: 100%; height: 100%; display: block; }
+.ambient-background__grain-fallback--light { opacity: .35; mix-blend-mode: soft-light; }
+.ambient-background__grain-fallback--shadow { opacity: .018; mix-blend-mode: screen; }
+
+/* Canvas grain replaces the fallback whenever JavaScript is available. */
+ambient-background[data-grain-ready="true"] .ambient-background__grain-fallback { opacity: 0; }
+
+.ambient-background__vignette {
+  background: radial-gradient(ellipse at center, transparent 24%, rgba(2, 2, 4, .12) 58%, rgba(2, 2, 4, .68) 100%);
+}
+
+@keyframes pink-drift {
+  0%   { transform: translate3d(4%, -18%, 0) rotate(-5deg) scale(.91, 1.05); opacity: .58; }
+  27%  { transform: translate3d(-8%, 10%, 0) rotate(9deg) scale(1.05, .94); opacity: .73; }
+  63%  { transform: translate3d(3%, 31%, 0) rotate(2deg) scale(.96, 1.09); opacity: .64; }
+  100% { transform: translate3d(-10%, -4%, 0) rotate(-10deg) scale(1.08, .92); opacity: .7; }
+}
+
+@keyframes blue-drift {
+  0%   { transform: translate3d(-6%, 9%, 0) rotate(8deg) scale(.95, 1.05); opacity: .45; }
+  34%  { transform: translate3d(15%, -5%, 0) rotate(-7deg) scale(1.09, .9); opacity: .63; }
+  68%  { transform: translate3d(7%, 27%, 0) rotate(4deg) scale(.91, 1.08); opacity: .52; }
+  100% { transform: translate3d(19%, -18%, 0) rotate(-9deg) scale(1.04, .94); opacity: .58; }
+}
+
+@keyframes pink-lobe-one {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-10deg) scale(.82, 1.08); opacity: .3; }
+  47% { transform: translate3d(-46%, 22%, 0) rotate(18deg) scale(.62, 1.28); opacity: .56; }
+  73% { transform: translate3d(-24%, -32%, 0) rotate(-23deg) scale(1.22, .65); opacity: .44; }
+}
+
+@keyframes pink-lobe-two {
+  0%, 100% { transform: translate3d(3%, -2%, 0) rotate(8deg) scale(1.08, .75); opacity: .18; }
+  42% { transform: translate3d(43%, -27%, 0) rotate(-18deg) scale(1.22, .6); opacity: .47; }
+  76% { transform: translate3d(25%, 31%, 0) rotate(21deg) scale(.62, 1.18); opacity: .36; }
+}
+
+@keyframes blue-lobe-one {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(9deg) scale(.8, 1.1); opacity: .28; }
+  44% { transform: translate3d(47%, -18%, 0) rotate(-18deg) scale(1.25, .62); opacity: .52; }
+  71% { transform: translate3d(20%, 34%, 0) rotate(19deg) scale(.64, 1.2); opacity: .4; }
+}
+
+@keyframes blue-lobe-two {
+  0%, 100% { transform: translate3d(1%, 1%, 0) rotate(-8deg) scale(1.06, .76); opacity: .17; }
+  39% { transform: translate3d(-43%, 27%, 0) rotate(16deg) scale(.64, 1.22); opacity: .45; }
+  74% { transform: translate3d(-26%, -30%, 0) rotate(-21deg) scale(1.18, .64); opacity: .34; }
+}
+
+
+.demo-content {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 8vw, 9rem);
+  max-width: 66rem;
+}
+
+.eyebrow {
+  margin: 0 0 1.4rem;
+  color: rgba(255, 255, 255, .62);
+  font: 500 .68rem/1.3 "DM Mono", monospace;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 8.5ch;
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 500;
+  letter-spacing: -.075em;
+  line-height: .94;
+  text-wrap: balance;
+}
+
+.lede {
+  max-width: 31rem;
+  margin: 2rem 0;
+  color: rgba(255, 255, 255, .7);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.65;
+}
+
+.demo-link { color: #fff; font-size: .9rem; font-weight: 600; text-decoration: none; }
+.demo-link span { margin-left: .4rem; color: #f5a4d8; }
+
+@media (max-width: 700px) {
+  .ambient-background__light { filter: blur(76px); }
+  .ambient-background__light--pink {
+    left: -24%;
+    top: 18%;
+    animation-name: pink-mobile-drift;
+  }
+  .ambient-background__light--blue {
+    left: 20%;
+    top: 49%;
+    animation-name: blue-mobile-drift;
+  }
+}
+
+@keyframes pink-mobile-drift {
+  0% { transform: translate3d(-12%, 1%, 0) rotate(-4deg) scale(.94, 1.04); opacity: .58; }
+  42% { transform: translate3d(57%, -4%, 0) rotate(10deg) scale(1.07, .93); opacity: .73; }
+  73% { transform: translate3d(26%, 5%, 0) rotate(-7deg) scale(.95, 1.08); opacity: .64; }
+  100% { transform: translate3d(-20%, 0, 0) rotate(-11deg) scale(1.05, .95); opacity: .7; }
+}
+
+@keyframes blue-mobile-drift {
+  0% { transform: translate3d(23%, 2%, 0) rotate(8deg) scale(.95, 1.05); opacity: .45; }
+  38% { transform: translate3d(-52%, -4%, 0) rotate(-8deg) scale(1.08, .91); opacity: .63; }
+  75% { transform: translate3d(-17%, 5%, 0) rotate(6deg) scale(.92, 1.07); opacity: .52; }
+  100% { transform: translate3d(36%, 0, 0) rotate(-9deg) scale(1.04, .94); opacity: .58; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-background__light,
+  .ambient-background__light::before,
+  .ambient-background__light::after { animation: none; }
+  .ambient-background__light--pink { transform: translate3d(0, 4%, 0) scale(.98); }
+  .ambient-background__light--blue { transform: translate3d(12%, -4%, 0) scale(.98); }
+}
+
+</style>
 
 <style>
 html {
@@ -204,6 +449,30 @@ body p {
 
 </head>
 <body>
+    <!-- Exact ambient background from the previous website -->
+    <ambient-background aria-hidden="true">
+      <div class="ambient-background__base"></div>
+      <div class="ambient-background__lights">
+        <i class="ambient-background__light ambient-background__light--pink"></i>
+        <i class="ambient-background__light ambient-background__light--blue"></i>
+      </div>
+      <svg class="ambient-background__grain-fallback ambient-background__grain-fallback--light" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <filter id="ambient-grain-light" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency=".78" numOctaves="5" seed="19" stitchTiles="stitch" />
+          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#ambient-grain-light)" />
+      </svg>
+      <svg class="ambient-background__grain-fallback ambient-background__grain-fallback--shadow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <filter id="ambient-grain-shadow" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="1.18" numOctaves="4" seed="43" stitchTiles="stitch" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#ambient-grain-shadow)" />
+      </svg>
+      <canvas class="ambient-background__grain ambient-background__grain--light"></canvas>
+      <canvas class="ambient-background__grain ambient-background__grain--shadow"></canvas>
+      <div class="ambient-background__vignette"></div>
+    </ambient-background>
 
 <center>
 
@@ -229,7 +498,7 @@ body p {
         <h1>Hey, Prabhash here</h1>
         <h4>Designer</h4>
 
-        <p >
+        <p>
             Hello, I’m passionate about design, and I create digital solutions that help elevate your business. Explore my curated projects to see how I combine creativity with strategy to solve real-world challenges. Let’s work together to create something truly unforgettable.
         </p>
         
@@ -257,7 +526,7 @@ body p {
             <img src="projects/final.png" alt="malaka">
             <img src="projects/ssdvp awrudu post.png" alt="awrudu">
             <img src="projects/cross.png" alt="OL">
-            <a href="https://drive.google.com/drive/folders/1KiecMSA5lWzuCH1mir0LIpqGowF5eNMx?usp=sharing" target="_blank"><img src="projects/more.png" alt="drive link"> </a>
+            <a href="https://drive.google.com/drive/folders/1KiecMSA5lWzuCH1mir0LIpqGowF5eNMx?usp=sharing" target="_blank"><img src="./Hey, Prabhash here_files/more.png" alt="drive link"> </a>
         </div>
     </div> 
 
@@ -304,8 +573,6 @@ body p {
 
 
 
-</body>
-</html>
 
 
 
@@ -321,3 +588,101 @@ body p {
 
 
 
+
+
+<script>
+/**
+ * Reusable full-viewport atmospheric background.
+ * Place <ambient-background></ambient-background> once near the top of <body>.
+ * It has no dependencies and renders all visual layers procedurally.
+ */
+class AmbientBackground extends HTMLElement {
+  connectedCallback() {
+    if (this.dataset.ready) return;
+    this.dataset.ready = "true";
+    // The demo ships with declarative fallback markup, so local file previews
+    // still show the effect if module execution is disabled by a browser.
+    if (!this.childElementCount) this.innerHTML = `
+      <div class="ambient-background__base"></div>
+      <div class="ambient-background__lights">
+        <i class="ambient-background__light ambient-background__light--pink"></i>
+        <i class="ambient-background__light ambient-background__light--blue"></i>
+      </div>
+      <svg class="ambient-background__grain-fallback ambient-background__grain-fallback--light" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <filter id="ambient-grain-light" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency=".78" numOctaves="5" seed="19" stitchTiles="stitch" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#ambient-grain-light)" />
+      </svg>
+      <svg class="ambient-background__grain-fallback ambient-background__grain-fallback--shadow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <filter id="ambient-grain-shadow" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="1.18" numOctaves="4" seed="43" stitchTiles="stitch" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#ambient-grain-shadow)" />
+      </svg>
+      <canvas class="ambient-background__grain ambient-background__grain--light"></canvas>
+      <canvas class="ambient-background__grain ambient-background__grain--shadow"></canvas>
+      <div class="ambient-background__vignette"></div>
+    `;
+    this.#startGrain();
+  }
+
+  #startGrain() {
+    const light = this.querySelector(".ambient-background__grain--light");
+    const shadow = this.querySelector(".ambient-background__grain--shadow");
+    if (!light || !shadow) return;
+
+    const tileSize = 240;
+    let contexts = [];
+
+    const resize = () => {
+      const ratio = Math.min(devicePixelRatio || 1, 1.5);
+      const width = innerWidth;
+      const height = innerHeight;
+      contexts = [light, shadow].map((canvas) => {
+        canvas.width = Math.ceil(width * ratio);
+        canvas.height = Math.ceil(height * ratio);
+        const context = canvas.getContext("2d", { alpha: true });
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        return context;
+      });
+    };
+
+    // Centered, averaged random values produce fine photographic grain. The
+    // grain has both lighter and darker particles, so it modulates the colour
+    // beneath it instead of behaving like a transparent grey sheet.
+    const paint = () => {
+      const tile = document.createElement("canvas");
+      tile.width = tile.height = tileSize;
+      const tileContext = tile.getContext("2d");
+      const pixels = tileContext.createImageData(tileSize, tileSize);
+      for (let i = 0; i < pixels.data.length; i += 4) {
+        let value = 128 + ((Math.random() + Math.random() + Math.random()) - 1.5) * 78;
+        // A tiny amount of irregular sensor-like variation stops it looking
+        // mathematically uniform while retaining a fine, dense texture.
+        if (Math.random() < .007) value += Math.random() < .5 ? -62 : 62;
+        value = Math.max(0, Math.min(255, value));
+        pixels.data[i] = value;
+        pixels.data[i + 1] = value;
+        pixels.data[i + 2] = value;
+        pixels.data[i + 3] = 255;
+      }
+      tileContext.putImageData(pixels, 0, 0);
+      contexts.forEach((context) => {
+        context.clearRect(0, 0, innerWidth, innerHeight);
+        context.fillStyle = context.createPattern(tile, "repeat");
+        context.fillRect(0, 0, innerWidth, innerHeight);
+      });
+    };
+
+    resize();
+    paint();
+    this.dataset.grainReady = "true";
+    addEventListener("resize", () => { resize(); paint(); }, { passive: true });
+  }
+}
+
+customElements.define("ambient-background", AmbientBackground);
+
+</script>
+</body></html>
